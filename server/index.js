@@ -19,11 +19,11 @@ app.post("/login", async (req, res) => {
     );
     res.json(newUser.rows[0]);
   } catch (err) {
-    if (err.code === '23505') { 
+    if (err.code === "23505") {
       console.error(err.message);
-      res.status(409).json({ error: 'User already exists' });
+      res.status(409).json({ error: "User already exists" });
     } else {
-      console.log('Server error: ' + err);
+      console.log("Server error: " + err);
       res.status(500).send("Server Error");
     }
   }
