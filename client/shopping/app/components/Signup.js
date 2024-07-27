@@ -1,3 +1,4 @@
+'use client'
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -21,7 +22,7 @@ function Signup() {
 
     try {
       const data = { username, password };
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch("http://localhost:5000/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -47,9 +48,14 @@ function Signup() {
   }
 
   return (
+    <>
+    <div className="flex items-center justify-center w-full bg-gray-300 cursor-pointer font-bold text-black" onClick={()=>router.push('/')}>
+
+Home
+</div>
     <div className="bg-blue-200 flex items-center justify-center h-[100vh] w-full">
       <div className="bg-white p-9 rounded-lg shadow-lg w-96">
-        <h1 className="text-center font-bold mb-7">Signup</h1>
+        <h1 className="text-center font-bold text-3xl mb-7 cursor-pointer underline">Signup</h1>
 
         <form onSubmit={onSubmition}>
           <div>
@@ -105,13 +111,14 @@ function Signup() {
           </div>
           <button
             type="submit"
-            className="bg-blue-500 text-white p-3 w-full rounded-md mt-5"
+            className="bg-blue-500 text-white p-3 w-full rounded-md mt-5 hover:bg-blue-600"
           >
             Signup
           </button>
         </form>
       </div>
     </div>
+    </>
   );
 }
 
