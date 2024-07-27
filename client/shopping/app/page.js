@@ -1,4 +1,4 @@
-import Image from "next/image";
+'use client'
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 
