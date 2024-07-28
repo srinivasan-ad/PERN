@@ -1,11 +1,5 @@
 import React from "react";
-import {
- 
-  HiBell,
-
-  HiSelector,
-
-} from "react-icons/hi";
+import { HiBell, HiSelector } from "react-icons/hi";
 function Header() {
   return (
     <header className="border-b-2 ">
@@ -14,7 +8,10 @@ function Header() {
           <p className=" font-black text-2xl ">A</p>
           <span className=" inline-flex items-center">
             <span className="pl-10">
-              <img src="/images/Download.jpg" className="h-7 rounded-full w-7" />
+              <img
+                src="/images/Download.jpg"
+                className="h-7 rounded-full w-7"
+              />
             </span>
             <span className="pl-4 pr-3">
               <p className=" text-[13px]  font-medium">
