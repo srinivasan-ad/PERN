@@ -25,6 +25,7 @@ function Login() {
       } else if (response.status === 200) {
         setUsername('');
         setPassword('');
+        localStorage.setItem('username', username);
         window.alert('Logged in successfully ;)');
         router.push('/Dashboard');
       } else {
@@ -45,11 +46,11 @@ function Login() {
           <h1 className="text-center font-bold mb-7 text-3xl underline cursor-pointer">Login</h1>
           <form onSubmit={onLogin}>
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-grey-600">Username</label>
+              <label  className="block text-sm font-medium text-grey-600">Username</label>
               <input type="text" id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} className="mt-1 p-2 w-full border rounded-md"></input>
             </div>
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-grey-600">Password</label>
+              <label  className="block text-sm font-medium text-grey-600">Password</label>
               <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 p-2 w-full border rounded-md"></input>
             </div>
             <button type="submit" className="bg-blue-500 text-white p-3 w-full rounded-md mt-5 hover:bg-blue-600">Login</button>
