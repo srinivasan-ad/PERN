@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -49,75 +49,79 @@ function Signup() {
 
   return (
     <>
-    <div className="flex items-center justify-center w-full bg-gray-300 cursor-pointer font-bold text-black" onClick={()=>router.push('/')}>
-
-Home
-</div>
-    <div className="bg-blue-200 flex items-center justify-center h-[100vh] w-full">
-      <div className="bg-white p-9 rounded-lg shadow-lg w-96">
-        <h1 className="text-center font-bold text-3xl mb-7 cursor-pointer underline">Signup</h1>
-
-        <form onSubmit={onSubmition}>
-          <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-grey-600"
-            >
-              Username/ Email
-            </label>
-            <input
-              type="email"
-              id="username"
-              name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-md"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-grey-600"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-md"
-              required
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="confirm-password"
-              className="block text-sm font-medium text-grey-600"
-            >
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              id="password2"
-              name="password2"
-              value={confirmpass}
-              onChange={(e) => setConfirmpass(e.target.value)}
-              className="mt-1 p-2 w-full border rounded-md"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white p-3 w-full rounded-md mt-5 hover:bg-blue-600"
-          >
-            Signup
-          </button>
-        </form>
+      <div
+        className="flex items-center justify-center w-full bg-gray-300 cursor-pointer font-bold text-black"
+        onClick={() => router.push("/")}
+      >
+        Home
       </div>
-    </div>
+      <div className="bg-blue-200 flex items-center justify-center h-[100vh] w-full">
+        <div className="bg-white p-9 rounded-lg shadow-lg w-96">
+          <h1 className="text-center font-bold text-3xl mb-7 cursor-pointer underline">
+            Signup
+          </h1>
+
+          <form onSubmit={onSubmition}>
+            <div>
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium text-grey-600"
+              >
+                Username/ Email
+              </label>
+              <input
+                type="email"
+                id="username"
+                name="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="mt-1 p-2 w-full border rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-grey-600"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 p-2 w-full border rounded-md"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="confirm-password"
+                className="block text-sm font-medium text-grey-600"
+              >
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="password2"
+                name="password2"
+                value={confirmpass}
+                onChange={(e) => setConfirmpass(e.target.value)}
+                className="mt-1 p-2 w-full border rounded-md"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-blue-500 text-white p-3 w-full rounded-md mt-5 hover:bg-blue-600"
+            >
+              Signup
+            </button>
+          </form>
+        </div>
+      </div>
     </>
   );
 }
