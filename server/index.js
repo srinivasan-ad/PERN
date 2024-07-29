@@ -179,3 +179,31 @@ app.get("/download/:pollId", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+app.post("/deleteusers/:pollId", async (req, res) => {
+  const { pollId } = req.params;
+  try {
+    const poll = await pool.query("DELETE FROM responses WHERE poll_id  = $1 RETURNING *", [
+      pollId,
+    ]);
+    console.log(pollId)
+
+      return res.status(206).json({ message: "Poll deleted" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+app.post("/delete/:pollId", async (req, res) => {
+  const { pollId } = req.params;
+  try {
+    const poll = await pool.query("DELETE FROM polls  WHERE id = $1 RETURNING *", [
+      pollId,
+    ]);
+   
+      return res.status(206).json({ message: "Poll deleted" });
+    
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
