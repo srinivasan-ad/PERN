@@ -20,6 +20,7 @@ function Login() {
 
       if (response.status === 404) {
         window.alert("Not registered, please signup first :)");
+        router.push("/Signup")
       } else if (response.status === 401) {
         window.alert("Entered wrong password!");
       } else if (response.status === 200) {

@@ -17,7 +17,7 @@ function Dashboard() {
         </p>
       </div>
       <div className="flex flex-col items-center justify-center min-h-screen bg-blue-400">
-        <div className="bg-blue-200 w-80 h-80 flex items-center justify-center flex-col space-y-10">
+        <div className="bg-blue-200 w-80 h-96 flex items-center justify-center flex-col space-y-6">
           <button
             className="bg-green-400 p-5 rounded-md"
             onClick={() => {
@@ -41,6 +41,14 @@ function Dashboard() {
             }}
           >
             Download Results
+          </button>
+          <button
+            className="bg-green-400 p-5 rounded-md"
+            onClick={() => {
+              router.push("/DeletePolls");
+            }}
+          >
+        Delete Polls
           </button>
         </div>
       </div>
