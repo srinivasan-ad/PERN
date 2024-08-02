@@ -15,9 +15,20 @@ CREATE TABLE polls (
     option3 VARCHAR(30)
 );
 
+CREATE TABLE form_polls(
+   id SERIAL PRIMARY KEY NOT NULL,
+    user_name VARCHAR(30) REFERENCES studentusers(name),
+    question VARCHAR(60) NOT NULL
+);
 CREATE TABLE responses(
     id SERIAL PRIMARY KEY,
     poll_id INTEGER REFERENCES polls(id),
+    user_name VARCHAR(30) REFERENCES studentusers(name),
+    response TEXT NOT NULL
+);
+CREATE TABLE form_responses(
+    id SERIAL PRIMARY KEY,
+    poll_id INTEGER REFERENCES form_polls(id),
     user_name VARCHAR(30) REFERENCES studentusers(name),
     response TEXT NOT NULL
 );

@@ -6,6 +6,7 @@ function ViewPolls() {
   const [polls, setPolls] = useState([]);
   const [poll, setPoll] = useState(null);
   const [option, setOption] = useState("");
+  const [error, setError] = useState(null);
   const router = useRouter();
   const user =
     typeof window !== "undefined" ? localStorage.getItem("username") : null;
@@ -40,8 +41,10 @@ function ViewPolls() {
       const data = await res.json();
       setPoll(data);
       setOption("");
+      setError(null);
     } catch (error) {
       console.error("Error fetching poll details:", error);
+      setError("Error fetching poll details");
     }
   };
 
@@ -55,9 +58,11 @@ function ViewPolls() {
   };
 
   const submitResponse = async (e) => {
-    e.preventDefault();
+  
     try {
-      const res = await fetch("http://localhost:5000/responses", {
+      let res;
+      if(poll.source === 'polls'){
+      res = await fetch("http://localhost:5000/responses", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({
@@ -65,11 +70,22 @@ function ViewPolls() {
           username: user,
           response: option,
         }),
-      });
+      });}
+      else{
+        res = await fetch("http://localhost:5000/formresponses", {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
+          body: JSON.stringify({
+            pollId: poll.id,
+            username: user,
+            response: option,
+          }),
+        });
+      }
       if (!res.ok) {
         throw new Error("Failed to submit response");
       }
-      alert("Response submitted successfully");
+      window.alert("Response submitted successfully");
       getPolls();
       setPoll(null);
     } catch (error) {
@@ -78,10 +94,10 @@ function ViewPolls() {
   };
 
   return (
-    <div className="h-[100vh] w-full  mx-auto  flex flex-col space-y-12 items-center">
-      <div className="w-full bg-slate-300  flex items-center justify-center h-16">
+    <div className="h-[100vh] w-full mx-auto flex flex-col space-y-12 items-center">
+      <div className="w-full bg-slate-300 flex items-center justify-center h-16">
         <p
-          className="font-bold  text-black cursor-pointer"
+          className="font-bold text-black cursor-pointer"
           onClick={() => {
             router.push("/Dashboard");
           }}
@@ -92,7 +108,7 @@ function ViewPolls() {
       <h1 className="text-2xl font-bold mb-4">Unanswered Polls</h1>
       <form onSubmit={submitResponse}>
         <div className="space-y-12 items-center flex flex-col">
-          <label className=" text-xl font-semibold  text-grey-600">
+          <label className="text-xl font-semibold text-grey-600">
             Select Poll
           </label>
           <select
@@ -110,42 +126,58 @@ function ViewPolls() {
             ))}
           </select>
         </div>
+        {error && <div className="text-red-500">{error}</div>}
         {poll && (
           <div>
             <h2 className="mt-4 mb-2 text-xl font-semibold">{poll.question}</h2>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="response"
-                  value={poll.option1}
-                  onChange={handleOptionChange}
-                />
-                {poll.option1}
-              </label>
-            </div>
-            <div>
-              <label>
-                <input
-                  type="radio"
-                  name="response"
-                  value={poll.option2}
-                  onChange={handleOptionChange}
-                />
-                {poll.option2}
-              </label>
-            </div>
-            {poll.option3 && (
+            {poll.source === "polls" && (
               <div>
-                <label>
-                  <input
-                    type="radio"
-                    name="response"
-                    value={poll.option3}
-                    onChange={handleOptionChange}
-                  />
-                  {poll.option3}
-                </label>
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="response"
+                      value={poll.option1}
+                      onChange={handleOptionChange}
+                    />
+                    {poll.option1}
+                  </label>
+                </div>
+                <div>
+                  <label>
+                    <input
+                      type="radio"
+                      name="response"
+                      value={poll.option2}
+                      onChange={handleOptionChange}
+                    />
+                    {poll.option2}
+                  </label>
+                </div>
+                {poll.option3 && (
+                  <div>
+                    <label>
+                      <input
+                        type="radio"
+                        name="response"
+                        value={poll.option3}
+                        onChange={handleOptionChange}
+                      />
+                      {poll.option3}
+                    </label>
+                  </div>
+                )}
+              </div>
+            )}
+            {poll.source === "form_polls" && (
+              <div>
+                <input
+                  type="text"
+                  placeholder="Your answer"
+                  value={option}
+                  onChange={handleOptionChange}
+                  className="mt-1 p-2 w-full border rounded-md"
+                />
               </div>
             )}
             <button

@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 function DeletePolls() {
-
   const [polls, setPolls] = useState([]);
   const [selectedPoll, setSelectedPoll] = useState(null);
+  const [pollSource, setPollSource] = useState("");
   const router = useRouter();
   const [username, setUsername] = useState("");
 
@@ -21,9 +21,7 @@ function DeletePolls() {
 
   const fetchPolls = async (username) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/polls/${username}/created`
-      );
+      const response = await fetch(`http://localhost:5000/polls/${username}/created`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
@@ -34,48 +32,46 @@ function DeletePolls() {
     }
   };
 
-  const deletePoll = async (pollId) => {
+  const deletePoll = async (pollId, source) => {
     try {
-      const response = await fetch(`http://localhost:5000/deleteusers/${pollId}`, {
-        method:"POST"
-     });
-      const response2 = await fetch(`http://localhost:5000/delete/${pollId}`,{
-        method:"POST"
+      const response = await fetch(`http://localhost:5000/delete/${pollId}`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ source })
       });
-      if (response.status === 206 && response2.status === 206) {
-   window.alert('Response Deleted ')
+      if (response.ok) {
+        window.alert("Poll deleted successfully");
+        fetchPolls(username);
+      } else {
+        window.alert("Error deleting poll");
       }
-    else if(response.status === 206 && !response2.status === 206){
-        window.alert('response deleted but poll not deleted')
-    }
-    else{
-        window.alert('nothing deleted error!')
-
-    }
-    
     } catch (error) {
-      console.error("Error fetching responses:", error);
+      console.error("Error deleting poll:", error);
+      window.alert("Error deleting poll");
     }
   };
 
   const handlePollSelect = (e) => {
     const selectedPollId = parseInt(e.target.value);
+    const selectedPoll = polls.find(poll => poll.id === selectedPollId);
     setSelectedPoll(selectedPollId);
-    console.log(selectedPoll)
-
-    console.log("Selected Poll:", selectedPollId);
+    setPollSource(selectedPoll.source);
+    console.log("Selected Poll:", selectedPollId, "Source:", selectedPoll.source);
   };
+
   const handleDeleteResponse = () => {
-  deletePoll(selectedPoll)
-  }
+    if (selectedPoll) {
+      deletePoll(selectedPoll, pollSource);
+    }
+  };
 
-
- 
   return (
-    <div className="h-[100vh] w-full flex flex-col mx-auto  items-center space-y-12">
-      <div className="w-full bg-slate-300  flex  justify-center h-16 items-center">
+    <div className="h-[100vh] w-full flex flex-col mx-auto items-center space-y-12">
+      <div className="w-full bg-slate-300 flex justify-center h-16 items-center">
         <p
-          className="font-bold  text-black cursor-pointer"
+          className="font-bold text-black cursor-pointer"
           onClick={() => {
             router.push("/Dashboard");
           }}
@@ -83,12 +79,9 @@ function DeletePolls() {
           Dashboard
         </p>
       </div>
-      <h1 className="text-2xl font-bold mb-4">Delete Poll </h1>
-      <div className="w-full h-screen flex items-center  flex-col">
-        <label
-          htmlFor="poll"
-          className="block text-xl font-semibold text-grey-600"
-        >
+      <h1 className="text-2xl font-bold mb-4">Delete Poll</h1>
+      <div className="w-full h-screen flex items-center flex-col">
+        <label htmlFor="poll" className="block text-xl font-semibold text-grey-600">
           Select Poll
         </label>
         <select
@@ -108,17 +101,14 @@ function DeletePolls() {
       </div>
       {selectedPoll && (
         <button
-          onClick={() => {deletePoll(selectedPoll),window.location.reload()}}
+          onClick={handleDeleteResponse}
           className="mt-5 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
         >
-      Delete Poll
+          Delete Poll
         </button>
       )}
     </div>
-
   );
 }
 
-
-
-export default DeletePolls
+export default DeletePolls;
